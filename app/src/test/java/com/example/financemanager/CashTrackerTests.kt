@@ -6,7 +6,6 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import java.time.LocalDate
-import java.util.Date
 
 class DoubleComparisonTests {
     @Test
