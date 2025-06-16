@@ -13,14 +13,16 @@ public class SpendRecordDatabase {
 
     public SpendRecordDatabase(final Context context, final String filename) {
         this.context = context;
-
-        final File androidDirectory = context.getFilesDir();
-        final String androidDirectoryURI = androidDirectory.getParent();
-        final Path path = Paths.get(androidDirectoryURI, filename);
-        this.file = path.toFile();
+        this.file = getPathWithFilename(filename).toFile();
     }
 
     public void createNewDatabaseOnFilesystem() throws IOException {
         file.createNewFile();
+    }
+
+    private Path getPathWithFilename(final String filename) {
+        final File androidDirectory = context.getFilesDir();
+        final String androidDirectoryURI = androidDirectory.getParent();
+        return Paths.get(androidDirectoryURI, filename);
     }
 }
