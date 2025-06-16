@@ -67,7 +67,7 @@ public class SpendRecordDatabaseTests {
     }
 
     @Test
-    public void databaseContainsJsonWithDir() throws IOException, JSONException {
+    public void databaseContainsJsonWithDirs() throws IOException, JSONException {
         SpendRecordDatabase database = new SpendRecordDatabase(context, TEST_DATABASE_FILENAME);
         database.createNewDatabaseOnFilesystem();
 
@@ -76,6 +76,7 @@ public class SpendRecordDatabaseTests {
 
         Assert.assertNotEquals(null, json);
         Assert.assertTrue(json.has("records"));
+        Assert.assertTrue(json.has("tracker"));
     }
 
     @Test
@@ -84,12 +85,12 @@ public class SpendRecordDatabaseTests {
         database.createNewDatabaseOnFilesystem();
 
         final SpendRecord record = new SpendRecord(15, LocalDate.now());
-        database.addRecord(record);
-        database.addRecord(record);
+        database.addItemToTable(record.toJSON(), "records");
+        database.addItemToTable(record.toJSON(), "records");
 
-        ArrayList<SpendRecord> records = database.getAllRecords();
+        ArrayList<JSONObject> records = database.getAllItemsFromTable("records");
 
         Assert.assertEquals(2, records.size());
-        Assert.assertEquals(15, records.get(0).cash, 0.01);
+        Assert.assertEquals(15, records.get(0).get("cash"));
     }
 }

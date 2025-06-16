@@ -32,27 +32,25 @@ public class SpendRecordDatabase {
         writeStringToFile(generateNewDatabaseJson().toString());
     }
 
-    public void addRecord(final SpendRecord record) throws JSONException, IOException {
+    public void addItemToTable(final JSONObject item, final String tableName) throws JSONException, IOException {
         final JSONObject json = readJSONFromFile();
-        final JSONArray recordsArrayJson = (JSONArray) json.get("records");
-        final JSONObject recordJSON = record.toJSON();
-
-        recordsArrayJson.put(recordJSON);
+        final JSONArray recordsArrayJson = (JSONArray) json.get(tableName);
+        recordsArrayJson.put(item);
         writeStringToFile(json.toString());
     }
 
-    public ArrayList<SpendRecord> getAllRecords() throws JSONException, IOException {
-        final ArrayList<SpendRecord> records = new ArrayList<>();
+    public ArrayList<JSONObject> getAllItemsFromTable(final String tableName) throws JSONException, IOException {
+        final ArrayList<JSONObject> items = new ArrayList<>();
 
         final JSONObject json = readJSONFromFile();
-        final JSONArray recordsArrayJson = (JSONArray) json.get("records");
+        final JSONArray recordsArrayJson = (JSONArray) json.get(tableName);
 
         for (int i = 0; i < recordsArrayJson.length(); i ++) {
             final JSONObject recordJSON = recordsArrayJson.getJSONObject(i);
-            records.add(new SpendRecord(recordJSON));
+            items.add(recordJSON);
         }
 
-        return records;
+        return items;
     }
 
     private Path getPathWithFilename(final String filename) {
@@ -108,6 +106,7 @@ public class SpendRecordDatabase {
     private JSONObject generateNewDatabaseJson() throws JSONException {
         JSONObject json = new JSONObject();
         json.put("records", new JSONArray());
+        json.put("tracker", new JSONArray());
         return json;
     }
 }
