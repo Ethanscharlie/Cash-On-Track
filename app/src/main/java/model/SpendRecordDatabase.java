@@ -9,11 +9,14 @@ import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class SpendRecordDatabase {
     final private File file;
@@ -27,6 +30,29 @@ public class SpendRecordDatabase {
     public void createNewDatabaseOnFilesystem() throws IOException, JSONException {
         file.createNewFile();
         writeStringToFile(generateNewDatabaseJson().toString());
+    }
+
+    public void addRecord(final SpendRecord record) throws JSONException, IOException {
+        final JSONObject json = readJSONFromFile();
+        final JSONArray recordsArrayJson = (JSONArray) json.get("records");
+        final JSONObject recordJSON = record.toJSON();
+
+        recordsArrayJson.put(recordJSON);
+        writeStringToFile(json.toString());
+    }
+
+    public ArrayList<SpendRecord> getAllRecords() throws JSONException, IOException {
+        final ArrayList<SpendRecord> records = new ArrayList<>();
+
+        final JSONObject json = readJSONFromFile();
+        final JSONArray recordsArrayJson = (JSONArray) json.get("records");
+
+        for (int i = 0; i < recordsArrayJson.length(); i ++) {
+            final JSONObject recordJSON = recordsArrayJson.getJSONObject(i);
+            records.add(new SpendRecord(recordJSON));
+        }
+
+        return records;
     }
 
     private Path getPathWithFilename(final String filename) {
@@ -59,6 +85,24 @@ public class SpendRecordDatabase {
                 e.printStackTrace();
             }
         }
+    }
+
+    private JSONObject readJSONFromFile() throws IOException, JSONException {
+        final String jsonRaw = readStringFromFile();
+        return new JSONObject(jsonRaw);
+    }
+
+    private String readStringFromFile() throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        FileInputStream fis = new FileInputStream(file);
+        int character;
+        while ((character = fis.read()) != -1) {
+            stringBuilder.append((char) character);
+        }
+        fis.close();
+
+        return stringBuilder.toString();
     }
 
     private JSONObject generateNewDatabaseJson() throws JSONException {

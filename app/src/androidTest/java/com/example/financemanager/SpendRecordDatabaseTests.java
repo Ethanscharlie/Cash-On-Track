@@ -19,7 +19,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
+import model.SpendRecord;
 import model.SpendRecordDatabase;
 
 @RunWith(AndroidJUnit4.class)
@@ -73,5 +76,20 @@ public class SpendRecordDatabaseTests {
 
         Assert.assertNotEquals(null, json);
         Assert.assertTrue(json.has("records"));
+    }
+
+    @Test
+    public void canAddRecord() throws JSONException, IOException {
+        final SpendRecordDatabase database = new SpendRecordDatabase(context, TEST_DATABASE_FILENAME);
+        database.createNewDatabaseOnFilesystem();
+
+        final SpendRecord record = new SpendRecord(15, LocalDate.now());
+        database.addRecord(record);
+        database.addRecord(record);
+
+        ArrayList<SpendRecord> records = database.getAllRecords();
+
+        Assert.assertEquals(2, records.size());
+        Assert.assertEquals(15, records.get(0).cash, 0.01);
     }
 }
