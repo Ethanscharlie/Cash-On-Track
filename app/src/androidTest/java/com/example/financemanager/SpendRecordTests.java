@@ -16,23 +16,23 @@ import model.SpendRecord;
 public class SpendRecordTests {
     @Test
     public void canConvertToJson() throws JSONException {
-        SpendRecord record = new SpendRecord(15, LocalDate.now());
+        SpendRecord record = new SpendRecord(15.30, LocalDate.now());
         JSONObject json = record.toJSON();
 
         Assert.assertTrue(json.has("cash"));
         Assert.assertTrue(json.has("date"));
-        Assert.assertEquals(15.0, json.get("cash"));
+        Assert.assertEquals(15.30, json.getDouble("cash"), 0.01);
         Assert.assertEquals(LocalDate.now().toString(), json.get("date"));
     }
 
     @Test
     public void canCovertFromJson() throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("cash", 10);
+        json.put("cash", 10.12);
         json.put("date", LocalDate.now().toString());
 
         SpendRecord record = new SpendRecord(json);
-        Assert.assertEquals(10, record.cash, 0.01);
+        Assert.assertEquals(10.12, record.cash, 0.01);
         Assert.assertEquals(LocalDate.now().toString(), record.date.toString());
     }
 }

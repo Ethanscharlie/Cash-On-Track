@@ -15,9 +15,8 @@ public class SpendRecord {
     }
 
     public SpendRecord(final JSONObject json) throws JSONException {
-        final int cashRaw = (int) json.get("cash");
+        this.cash = json.getDouble("cash");
         final String dateRaw = (String) json.get("date");
-        this.cash = cashRaw;
         this.date = LocalDate.parse(dateRaw);
     }
 

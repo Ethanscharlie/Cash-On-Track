@@ -15,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,10 +22,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.SpendRecord;
-import model.SpendRecordDatabase;
+import model.Database;
 
 @RunWith(AndroidJUnit4.class)
-public class SpendRecordDatabaseTests {
+public class DatabaseTests {
     static final String TEST_DATABASE_FILENAME = "testingDB.json";
     static final Context context = ApplicationProvider.getApplicationContext();
 
@@ -60,7 +59,7 @@ public class SpendRecordDatabaseTests {
 
     @Test
     public void canCreateADatabaseOnFilesystem() throws IOException, JSONException {
-        SpendRecordDatabase database = new SpendRecordDatabase(context, TEST_DATABASE_FILENAME);
+        Database database = new Database(context, TEST_DATABASE_FILENAME);
         database.createNewDatabaseOnFilesystem();
 
         Assert.assertTrue(getPathForDatabase().toFile().exists());
@@ -68,7 +67,7 @@ public class SpendRecordDatabaseTests {
 
     @Test
     public void databaseContainsJsonWithDirs() throws IOException, JSONException {
-        SpendRecordDatabase database = new SpendRecordDatabase(context, TEST_DATABASE_FILENAME);
+        Database database = new Database(context, TEST_DATABASE_FILENAME);
         database.createNewDatabaseOnFilesystem();
 
         File file = getPathForDatabase().toFile();
@@ -81,16 +80,16 @@ public class SpendRecordDatabaseTests {
 
     @Test
     public void canAddRecord() throws JSONException, IOException {
-        final SpendRecordDatabase database = new SpendRecordDatabase(context, TEST_DATABASE_FILENAME);
+        final Database database = new Database(context, TEST_DATABASE_FILENAME);
         database.createNewDatabaseOnFilesystem();
 
-        final SpendRecord record = new SpendRecord(15, LocalDate.now());
+        final SpendRecord record = new SpendRecord(15.10, LocalDate.now());
         database.addItemToTable(record.toJSON(), "records");
         database.addItemToTable(record.toJSON(), "records");
 
         ArrayList<JSONObject> records = database.getAllItemsFromTable("records");
 
         Assert.assertEquals(2, records.size());
-        Assert.assertEquals(15, records.get(0).get("cash"));
+        Assert.assertEquals(15.10, (double) records.get(0).get("cash"), 0.01);
     }
 }

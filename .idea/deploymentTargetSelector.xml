@@ -8,7 +8,7 @@
       <SelectionState runConfigName="Tests in 'com.example.financemanager'">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="SpendRecordDatabaseTests">
+      <SelectionState runConfigName="DatabaseTests">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
