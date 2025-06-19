@@ -25,17 +25,20 @@ public class Database {
     final private File file;
     final private Context context;
 
+    public static void init(final Context context) {
+        instance = new Database(context);
+    }
+
     public static Database getInstance() {
-        if (instance != null) {
-            return instance;
+        if (instance == null) {
+            throw new IllegalStateException("Database is not initialized. Call Database.init(context) first.");
         }
 
-        instance = new Database();
         return instance;
     }
 
-    private Database() {
-        this.context = ApplicationProvider.getApplicationContext();
+    private Database(final Context context) {
+        this.context = context;
         this.file = getPathWithFilename(DB_FILENAME).toFile();
     }
 

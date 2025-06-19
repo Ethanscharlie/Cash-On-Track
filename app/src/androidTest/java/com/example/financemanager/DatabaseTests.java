@@ -58,6 +58,7 @@ public class DatabaseTests {
 
     @Test
     public void canCreateADatabaseOnFilesystem() throws IOException, JSONException {
+        Database.init(context);
         Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
 
@@ -66,6 +67,7 @@ public class DatabaseTests {
 
     @Test
     public void databaseContainsJsonWithDirs() throws IOException, JSONException {
+        Database.init(context);
         Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
 
@@ -79,6 +81,7 @@ public class DatabaseTests {
 
     @Test
     public void canAddRecord() throws JSONException, IOException {
+        Database.init(context);
         final Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
 

@@ -25,7 +25,10 @@ public class CashTrackerTests {
 
     private Database setupTestingDatabase() throws JSONException, IOException {
         final BudgetTracker tracker = new BudgetTracker(100, LocalDate.now(), 0);
+
+        Database.init(context);
         final Database database = Database.getInstance();
+
         database.createNewDatabaseOnFilesystem();
         database.addItemToTable(tracker.toJSON(), "tracker");
         return database;
