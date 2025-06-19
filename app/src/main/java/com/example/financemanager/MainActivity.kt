@@ -1,6 +1,5 @@
 package com.example.financemanager
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,7 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.financemanager.ui.theme.FinanceManagerTheme
 import controller.BudgetTrackerController
+import model.BudgetTracker
 import model.Database
+import java.time.LocalDate
 
 
 class MainActivity : ComponentActivity() {
@@ -29,12 +30,18 @@ class MainActivity : ComponentActivity() {
 
         Database.init(this);
 
-        Database.getInstance().createNewDatabaseOnFilesystem()
+        val database = Database.getInstance()
+        database.createNewDatabaseOnFilesystem()
+        val tracker = BudgetTracker(100.0, LocalDate.now(), 0)
+        database.addItemToTable(tracker.toJSON(), "tracker")
 
         enableEdgeToEdge()
         setContent {
             FinanceManagerTheme {
                 Column (Modifier.padding(40.dp)) {
+                    var trackedValue by remember { mutableStateOf("") }
+                    trackedValue = BudgetTrackerController.getInstance().availableFunds.toString();
+
                     var text by remember { mutableStateOf("") }
 
                     OutlinedTextField (
@@ -45,10 +52,13 @@ class MainActivity : ComponentActivity() {
                     )
 
                     Button(onClick = {
-                        BudgetTrackerController.getInstance().record(10.0);
+                        BudgetTrackerController.getInstance().record(text.toDouble());
+                        trackedValue = BudgetTrackerController.getInstance().availableFunds.toString();
                     }) {
                         Text(text = "Click Me")
                     }
+
+                    Text(trackedValue)
                 }
             }
         }
