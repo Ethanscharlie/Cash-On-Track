@@ -2,6 +2,8 @@ package model;
 
 import android.content.Context;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,12 +19,24 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Database {
-    final private File file;
-    final Context context;
+    public static final String DB_FILENAME = "database";
+    static Database instance;
 
-    public Database(final Context context, final String filename) {
-        this.context = context;
-        this.file = getPathWithFilename(filename).toFile();
+    final private File file;
+    final private Context context;
+
+    public static Database getInstance() {
+        if (instance != null) {
+            return instance;
+        }
+
+        instance = new Database();
+        return instance;
+    }
+
+    private Database() {
+        this.context = ApplicationProvider.getApplicationContext();
+        this.file = getPathWithFilename(DB_FILENAME).toFile();
     }
 
     public void createNewDatabaseOnFilesystem() throws IOException, JSONException {

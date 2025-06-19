@@ -8,7 +8,7 @@
       <SelectionState runConfigName="Tests in 'com.example.financemanager'">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="DatabaseTests">
+      <SelectionState runConfigName="MainActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -12,10 +12,21 @@ import model.Database;
 import model.SpendRecord;
 
 public class BudgetTrackerController {
-  public Database database;
+  static BudgetTrackerController instance;
 
-  public BudgetTrackerController(final Database database) {
-    this.database = database;
+  private final Database database;
+
+  public static BudgetTrackerController getInstance() {
+    if (instance != null) {
+      return instance;
+    }
+
+    instance = new BudgetTrackerController();
+    return instance;
+  }
+
+  private BudgetTrackerController() {
+    this.database = Database.getInstance();
   }
 
   public double getTotalSpend() throws JSONException, IOException {

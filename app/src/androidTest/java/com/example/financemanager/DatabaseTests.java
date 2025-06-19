@@ -26,13 +26,12 @@ import model.Database;
 
 @RunWith(AndroidJUnit4.class)
 public class DatabaseTests {
-    static final String TEST_DATABASE_FILENAME = "testingDB.json";
     static final Context context = ApplicationProvider.getApplicationContext();
 
     private Path getPathForDatabase() {
         final File androidDirectory = context.getFilesDir();
         final String androidDirectoryURI = androidDirectory.getParent();
-        return Paths.get(androidDirectoryURI, TEST_DATABASE_FILENAME);
+        return Paths.get(androidDirectoryURI, Database.DB_FILENAME);
     }
 
     private static JSONObject readJsonFromFile(File file) {
@@ -59,7 +58,7 @@ public class DatabaseTests {
 
     @Test
     public void canCreateADatabaseOnFilesystem() throws IOException, JSONException {
-        Database database = new Database(context, TEST_DATABASE_FILENAME);
+        Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
 
         Assert.assertTrue(getPathForDatabase().toFile().exists());
@@ -67,7 +66,7 @@ public class DatabaseTests {
 
     @Test
     public void databaseContainsJsonWithDirs() throws IOException, JSONException {
-        Database database = new Database(context, TEST_DATABASE_FILENAME);
+        Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
 
         File file = getPathForDatabase().toFile();
@@ -80,7 +79,7 @@ public class DatabaseTests {
 
     @Test
     public void canAddRecord() throws JSONException, IOException {
-        final Database database = new Database(context, TEST_DATABASE_FILENAME);
+        final Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
 
         final SpendRecord record = new SpendRecord(15.10, LocalDate.now());

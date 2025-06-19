@@ -21,12 +21,11 @@ import java.time.LocalDate;
 
 @RunWith(AndroidJUnit4.class)
 public class CashTrackerTests {
-    static final String TEST_DATABASE_FILENAME = "testingDB.json";
     static final Context context = ApplicationProvider.getApplicationContext();
 
     private Database setupTestingDatabase() throws JSONException, IOException {
         final BudgetTracker tracker = new BudgetTracker(100, LocalDate.now(), 0);
-        final Database database = new Database(context, TEST_DATABASE_FILENAME);
+        final Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
         database.addItemToTable(tracker.toJSON(), "tracker");
         return database;
@@ -48,35 +47,39 @@ public class CashTrackerTests {
 
     @Test
     public void testGetMonthsElapsedOverManyMonths() throws JSONException, IOException {
+        setupTestingDatabase();
         final LocalDate past = LocalDate.now().minusMonths(20);
 
         final BudgetTracker tracker = new BudgetTracker(100, past, 0);
-        final Database database = new Database(context, TEST_DATABASE_FILENAME);
+        final Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
         database.addItemToTable(tracker.toJSON(), "tracker");
 
-        final BudgetTrackerController budgetTrackerController = new BudgetTrackerController(database);
+        final BudgetTrackerController budgetTrackerController = BudgetTrackerController.getInstance();
         final int monthsElapsed = budgetTrackerController.getMonthsElapsed();
         Assert.assertEquals(20, monthsElapsed);
     }
 
     @Test
     public void testGetMonthsElapsedOverNoMonths() throws JSONException, IOException {
-        final BudgetTrackerController budgetTrackerController = new BudgetTrackerController(setupTestingDatabase());
+        setupTestingDatabase();
+        final BudgetTrackerController budgetTrackerController = BudgetTrackerController.getInstance();
         final int monthsElapsed = budgetTrackerController.getMonthsElapsed();
         Assert.assertEquals(0, monthsElapsed);
     }
 
     @Test
     public void trackerPoolIsCorrectOnInit() throws JSONException, IOException {
-        final BudgetTrackerController budgetTrackerController = new BudgetTrackerController(setupTestingDatabase());
+        setupTestingDatabase();
+        final BudgetTrackerController budgetTrackerController = BudgetTrackerController.getInstance();
         final double availableFunds = budgetTrackerController.getAvailableFunds();
         Assert.assertEquals(100.0, availableFunds, Constants.COMPARISON_DELTA);
     }
 
     @Test
     public void canCollectAllRecords() throws JSONException, IOException {
-        final BudgetTrackerController budgetTrackerController = new BudgetTrackerController(setupTestingDatabase());
+        setupTestingDatabase();
+        final BudgetTrackerController budgetTrackerController = BudgetTrackerController.getInstance();
         budgetTrackerController.record(20.0);
         budgetTrackerController.record(40.0);
         Assert.assertEquals(60.0, budgetTrackerController.getTotalSpend(), Constants.COMPARISON_DELTA);
@@ -84,10 +87,11 @@ public class CashTrackerTests {
 
     @Test
     public void canAddRecordAndRemovesFunds() throws JSONException, IOException {
+        setupTestingDatabase();
         final double budget = 100.0;
         final double spend = 20.0;
 
-        final BudgetTrackerController budgetTrackerController = new BudgetTrackerController(setupTestingDatabase());
+        final BudgetTrackerController budgetTrackerController = BudgetTrackerController.getInstance();
         budgetTrackerController.record(spend);
         Assert.assertEquals(budget - spend, budgetTrackerController.getAvailableFunds(), Constants.COMPARISON_DELTA);
     }
