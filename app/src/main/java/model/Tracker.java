@@ -9,12 +9,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Tracker {
-    public enum PeriodType {
-        Weekly,
-        Monthly
-    }
+    public static final String MONTHLY = "monthly";
+    public static final String WEEKLY = "weekly";
 
-    public static void addTracker(String name, PeriodType periodType, double cash) throws Exception {
+    public static void addTracker(String name, String periodType, double cash) throws Exception {
         if (findTracker(name) != null) {
             System.out.printf("Tracker %s already exists\n", name);
             return;
@@ -56,24 +54,22 @@ public class Tracker {
                                              final LocalDate currentDate) throws Exception {
         final String startinDateString = tracker.getString("starting_date");
         final LocalDate startingDate = LocalDate.parse(startinDateString);
-
-        final String periodTypeString = tracker.getString("period_type");
-        final PeriodType periodType = getPeriodTypeOfString(periodTypeString);
+        final String periodType = tracker.getString("period_type");
 
         return getPeriods(startingDate, periodType, currentDate);
     }
 
     private static int getPeriods(final LocalDate startingDate,
-                                  final PeriodType periodType,
+                                  final String periodType,
                                   final LocalDate currentDate) throws Exception {
         switch (periodType) {
-            case Weekly:
+            case WEEKLY:
             {
                 final LocalDate now = LocalDate.now();
                 final double diff = ChronoUnit.WEEKS.between(startingDate, currentDate);
                 return (int) diff;
             }
-            case Monthly:
+            case MONTHLY:
             {
                 final LocalDate start = startingDate.withDayOfMonth(1);
                 final LocalDate now = currentDate.withDayOfMonth(1);
@@ -92,33 +88,11 @@ public class Tracker {
         }
     }
 
-    private static String getStringOfPeriodType(final PeriodType periodType) throws Exception {
-        switch (periodType) {
-            case Weekly:
-                return "weekly";
-            case Monthly:
-                return "monthly";
-        }
-
-        throw new Exception("Cannot get period for non existent period type");
-    }
-
-    private static PeriodType getPeriodTypeOfString(final String periodTypeString) throws Exception {
-        switch (periodTypeString) {
-            case "weekly":
-                return PeriodType.Weekly;
-            case "monthly":
-                return PeriodType.Monthly;
-        }
-
-        throw new Exception("Cannot get period for non existent period type");
-    }
-
-    private static JSONObject createJson(String name, PeriodType periodType, double cash) throws Exception {
+    private static JSONObject createJson(String name, String periodType, double cash) throws Exception {
         JSONObject json = new JSONObject();
         json.put("name", name);
         json.put("starting_date", LocalDate.now().toString());
-        json.put("period_type", getStringOfPeriodType(periodType));
+        json.put("period_type", periodType);
         json.put("cash", cash);
         return json;
     }

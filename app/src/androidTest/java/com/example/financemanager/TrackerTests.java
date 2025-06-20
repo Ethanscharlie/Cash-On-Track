@@ -28,8 +28,8 @@ public class TrackerTests {
     public void canAddTrackersAndTheyShowAsAvailable() throws Exception {
         createTestingDatabase();
 
-        Tracker.addTracker("One", Tracker.PeriodType.Monthly, 100);
-        Tracker.addTracker("Two", Tracker.PeriodType.Weekly, 20);
+        Tracker.addTracker("One", Tracker.MONTHLY, 100);
+        Tracker.addTracker("Two", Tracker.WEEKLY, 20);
 
         final ArrayList<String> trackerNames = Tracker.getAvailableTrackers();
         Assert.assertEquals("One", trackerNames.get(0));
@@ -39,7 +39,7 @@ public class TrackerTests {
     @Test
     public void monthlyBalanceIsCorrectInstantly() throws Exception {
         createTestingDatabase();
-        Tracker.addTracker("One", Tracker.PeriodType.Monthly, 130.23);
+        Tracker.addTracker("One", Tracker.MONTHLY, 130.23);
         final double balance = Tracker.getBalanceOfTracker("One");
         Assert.assertEquals(130.23, balance, 0.01);
     }
@@ -47,7 +47,7 @@ public class TrackerTests {
     @Test
     public void weeklyBalanceIsCorrectInstantly() throws Exception {
         createTestingDatabase();
-        Tracker.addTracker("One", Tracker.PeriodType.Weekly, 130.23);
+        Tracker.addTracker("One", Tracker.WEEKLY, 130.23);
         final double balance = Tracker.getBalanceOfTracker("One");
         Assert.assertEquals(130.23, balance, 0.01);
     }
@@ -56,7 +56,7 @@ public class TrackerTests {
     public void monthlyBalanceIsCorrectForFuture() throws Exception {
         createTestingDatabase();
 
-        Tracker.addTracker("One", Tracker.PeriodType.Monthly, 100);
+        Tracker.addTracker("One", Tracker.MONTHLY, 100);
         Record.addRecord(20, "One");
 
         final LocalDate future = LocalDate.now().plusMonths(20);
@@ -70,7 +70,7 @@ public class TrackerTests {
     public void weeklyBalanceIsCorrectForFuture() throws Exception {
         createTestingDatabase();
 
-        Tracker.addTracker("One", Tracker.PeriodType.Weekly, 25);
+        Tracker.addTracker("One", Tracker.WEEKLY, 25);
         Record.addRecord(20, "One");
 
         final LocalDate future = LocalDate.now().plusWeeks(100);

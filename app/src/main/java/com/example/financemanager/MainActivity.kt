@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         val database = Database.getInstance()
         database.createNewDatabaseOnFilesystem()
 
-        Tracker.addTracker("MainTracker", Tracker.PeriodType.Monthly, 100.0);
+        Tracker.addTracker("MainTracker", Tracker.MONTHLY, 100.0);
 
         enableEdgeToEdge()
         setContent {
