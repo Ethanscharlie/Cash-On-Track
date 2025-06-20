@@ -47,6 +47,14 @@ public class Database {
         writeStringToFile(generateNewDatabaseJson().toString());
     }
 
+    public void createNewDatabaseOnFilesystemIfMissing() throws IOException, JSONException {
+        if (file.exists()) {
+            return;
+        }
+
+        createNewDatabaseOnFilesystem();
+    }
+
     public void addItemToTable(final JSONObject item, final String tableName) throws JSONException, IOException {
         final JSONObject json = readJSONFromFile();
         final JSONArray recordsArrayJson = (JSONArray) json.get(tableName);

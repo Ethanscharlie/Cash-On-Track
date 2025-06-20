@@ -50,6 +50,12 @@ fun TrackerAdd(
         }) {
             Text(text = "Add")
         }
+
+        Button(onClick = {
+            navController.popBackStack()
+        }) {
+            Text(text = "Cancel")
+        }
     }
 }
 

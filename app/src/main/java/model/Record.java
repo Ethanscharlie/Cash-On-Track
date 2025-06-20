@@ -22,7 +22,7 @@ public class Record {
 
         ArrayList<JSONObject> records = Database.getInstance().getAllItemsFromTable("records");
         for (JSONObject record : records) {
-            if (record.get("name").equals(trackerName)) {
+            if (!record.get("tracker").equals(trackerName)) {
                 continue;
             }
             total += record.getDouble("cash");

@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         Database.init(this);
 
         val database = Database.getInstance()
-        database.createNewDatabaseOnFilesystem()
+        database.createNewDatabaseOnFilesystemIfMissing()
 
         Tracker.addTracker("MainTracker", Tracker.MONTHLY, 100.0);
 
