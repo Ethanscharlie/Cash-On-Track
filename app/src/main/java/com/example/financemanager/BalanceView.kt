@@ -1,12 +1,15 @@
 package com.example.financemanager
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import model.Tracker
 
@@ -15,13 +18,43 @@ fun BalanceView(
     navController: NavHostController
 ) {
     Column (Modifier.padding(40.dp)) {
-        Text(Tracker.getBalanceOfTracker("MainTracker").toString())
+        TrackerBalanceList()
+        Spacer(Modifier.weight(1f))
+        Buttons(navController)
+    }
+}
 
-        Button(onClick = {
-            navController.navigate(Screen.Record.name)
-        }) {
-            Text(text = "Add Record")
+@Composable
+fun Buttons(
+    navController: NavHostController
+) {
+    AddNavButton("Add Record", Screen.Record, navController)
+}
+
+@Composable
+fun AddNavButton(text: String,  location: Screen, navController: NavController) {
+    Button(onClick = {
+        navController.navigate(location.name)
+    }) {
+        Text(text = text)
+    }
+}
+
+@Composable
+fun TrackerBalanceList() {
+    Column {
+        val trackerNamesList = Tracker.getAvailableTrackers()
+        for (trackerName in trackerNamesList) {
+            TrackerBalance(trackerName)
         }
     }
 }
 
+@Composable
+fun TrackerBalance(trackerName: String) {
+    Row {
+        Text(trackerName)
+        Spacer(Modifier.weight(1f))
+        Text(Tracker.getBalanceOfTracker(trackerName).toString())
+    }
+}
