@@ -1,5 +1,7 @@
 package com.example.financemanager;
 
+import android.icu.util.LocaleData;
+
 import androidx.test.core.app.ApplicationProvider;
 
 import org.json.JSONException;
@@ -7,9 +9,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import model.Database;
+import model.Record;
 import model.Tracker;
 
 public class TrackerTests {
@@ -32,18 +37,45 @@ public class TrackerTests {
     }
 
     @Test
-    public void monthlyBalanceIsCorrect() throws Exception {
+    public void monthlyBalanceIsCorrectInstantly() throws Exception {
         createTestingDatabase();
         Tracker.addTracker("One", Tracker.PeriodType.Monthly, 130.23);
-        final double balance = Tracker.getBalance("One");
+        final double balance = Tracker.getBalanceOfTracker("One");
         Assert.assertEquals(130.23, balance, 0.01);
     }
 
     @Test
-    public void weeklyBalanceIsCorrect() throws Exception {
+    public void weeklyBalanceIsCorrectInstantly() throws Exception {
         createTestingDatabase();
         Tracker.addTracker("One", Tracker.PeriodType.Weekly, 130.23);
-        final double balance = Tracker.getBalance("One");
+        final double balance = Tracker.getBalanceOfTracker("One");
         Assert.assertEquals(130.23, balance, 0.01);
+    }
+
+    @Test
+    public void monthlyBalanceIsCorrectForFuture() throws Exception {
+        createTestingDatabase();
+
+        Tracker.addTracker("One", Tracker.PeriodType.Monthly, 100);
+        Record.addRecord(20, "One");
+
+        final LocalDate future = LocalDate.now().plusMonths(20);
+
+        final double balance = Tracker.getBalanceOfTrackerForDate("One", future);
+        Assert.assertEquals(2080, balance, 0.01);
+    }
+
+
+    @Test
+    public void weeklyBalanceIsCorrectForFuture() throws Exception {
+        createTestingDatabase();
+
+        Tracker.addTracker("One", Tracker.PeriodType.Weekly, 25);
+        Record.addRecord(20, "One");
+
+        final LocalDate future = LocalDate.now().plusWeeks(100);
+
+        final double balance = Tracker.getBalanceOfTrackerForDate("One", future);
+        Assert.assertEquals(25 - 20 + (25 * 100), balance, 0.01);
     }
 }

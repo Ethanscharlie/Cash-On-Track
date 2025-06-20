@@ -21,7 +21,6 @@ import com.example.financemanager.ui.theme.FinanceManagerTheme
 import model.Tracker
 import model.Record
 import model.Database
-import java.time.LocalDate
 
 
 class MainActivity : ComponentActivity() {
@@ -40,7 +39,7 @@ class MainActivity : ComponentActivity() {
             FinanceManagerTheme {
                 Column (Modifier.padding(40.dp)) {
                     var trackedValue by remember { mutableStateOf("") }
-                    trackedValue = Tracker.getBalance("MainTracker").toString();
+                    trackedValue = Tracker.getBalanceOfTracker("MainTracker").toString();
 
                     var text by remember { mutableStateOf("") }
 
@@ -53,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
                     Button(onClick = {
                         Record.addRecord(text.toDouble(), "MainTracker");
-                        trackedValue = Tracker.getBalance("MainTracker").toString();
+                        trackedValue = Tracker.getBalanceOfTracker("MainTracker").toString();
                     }) {
                         Text(text = "Click Me")
                     }

@@ -35,40 +35,48 @@ public class Tracker {
         return availableTrackers;
     }
 
-    public static double getBalance(String trackerName) throws Exception {
+    public static double getBalanceOfTracker(String trackerName) throws Exception {
+        return getBalanceOfTrackerForDate(trackerName, LocalDate.now());
+    }
+
+    public static double getBalanceOfTrackerForDate(final String trackerName,
+                                                    final LocalDate currentDate) throws Exception {
         JSONObject tracker = findTracker(trackerName);
         throwExceptionIfTrackerIsNull(tracker);
 
         final double cash = tracker.getDouble("cash");
-        final int periods = getPeriodsFromTracker(tracker);
+        final int periods = getPeriodsFromTracker(tracker, currentDate);
         final double totalSpent = Record.getTotalSpentForTracker(trackerName);
 
         final double pool = cash + (cash * periods);
         return pool - totalSpent;
     }
 
-    private static int getPeriodsFromTracker(final JSONObject tracker) throws Exception {
+    private static int getPeriodsFromTracker(final JSONObject tracker,
+                                             final LocalDate currentDate) throws Exception {
         final String startinDateString = tracker.getString("starting_date");
         final LocalDate startingDate = LocalDate.parse(startinDateString);
 
         final String periodTypeString = tracker.getString("period_type");
         final PeriodType periodType = getPeriodTypeOfString(periodTypeString);
 
-        return getPeriods(startingDate, periodType);
+        return getPeriods(startingDate, periodType, currentDate);
     }
 
-    private static int getPeriods(final LocalDate startingDate, final PeriodType periodType) throws Exception {
+    private static int getPeriods(final LocalDate startingDate,
+                                  final PeriodType periodType,
+                                  final LocalDate currentDate) throws Exception {
         switch (periodType) {
             case Weekly:
             {
                 final LocalDate now = LocalDate.now();
-                final double diff = ChronoUnit.WEEKS.between(startingDate, now);
+                final double diff = ChronoUnit.WEEKS.between(startingDate, currentDate);
                 return (int) diff;
             }
             case Monthly:
             {
                 final LocalDate start = startingDate.withDayOfMonth(1);
-                final LocalDate now = LocalDate.now().withDayOfMonth(1);
+                final LocalDate now = currentDate.withDayOfMonth(1);
                 final double diff = ChronoUnit.MONTHS.between(start, now);
                 return (int) diff;
             }
