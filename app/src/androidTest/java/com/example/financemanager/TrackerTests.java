@@ -51,4 +51,17 @@ public class TrackerTests {
         final double balance = Tracker.getBalanceOfTracker("One");
         Assert.assertEquals(130.23, balance, 0.01);
     }
+
+    @Test
+    public void canRemoveTrackers() throws Exception {
+        createTestingDatabase();
+        Tracker.addTracker("Zero", Tracker.WEEKLY, 100);
+        Tracker.addTracker("One", Tracker.WEEKLY, 100);
+        Tracker.addTracker("Two", Tracker.WEEKLY, 100);
+
+        Tracker.remove("One");
+
+        Assert.assertEquals(2, Tracker.getAvailableTrackers().size());
+        Assert.assertEquals("Two", Tracker.getAvailableTrackers().get(1));
+    }
 }

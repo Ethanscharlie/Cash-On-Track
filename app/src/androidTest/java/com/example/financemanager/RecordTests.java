@@ -20,7 +20,7 @@ public class RecordTests {
     }
 
     @Test
-    public void canAddRecordsAndGetBalance() throws JSONException, IOException {
+    public void canAddRecordsAndGetBalance() throws Exception {
         createTestingDatabase();
 
         Record.addRecord(100, "");

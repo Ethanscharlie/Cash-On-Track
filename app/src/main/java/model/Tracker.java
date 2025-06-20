@@ -50,6 +50,16 @@ public class Tracker {
         return pool - totalSpent;
     }
 
+    public static void remove(String trackerName) throws Exception {
+        final ArrayList<JSONObject> trackers = getAllTrackers();
+        for (final JSONObject tracker : trackers) {
+            if (trackersNameIs(tracker, trackerName)) {
+                Database.getInstance().remove(tracker, "tracker");
+                return;
+            }
+        }
+    }
+
     private static int getPeriodsFromTracker(final JSONObject tracker,
                                              final LocalDate currentDate) throws Exception {
         final String startinDateString = tracker.getString("starting_date");
@@ -93,6 +103,7 @@ public class Tracker {
         json.put("starting_date", LocalDate.now().toString());
         json.put("period_type", periodType);
         json.put("cash", cash);
+        json.put("id", generateID(cash, LocalDate.now(), name));
         return json;
     }
 
@@ -115,4 +126,15 @@ public class Tracker {
 
         return null;
     }
+
+    private static String generateID(final Double cash, final LocalDate date, final String name) {
+        String id = "";
+        id += cash.toString();
+        id += "_";
+        id += date.toString();
+        id += "_";
+        id += name;
+        return id;
+    }
+
 }

@@ -78,4 +78,21 @@ public class DatabaseTests {
         Assert.assertTrue(json.has("records"));
         Assert.assertTrue(json.has("tracker"));
     }
+
+    @Test
+    public void canRemoveItemFromTable() throws Exception {
+        Database.init(context);
+        Database database = Database.getInstance();
+        database.createNewDatabaseOnFilesystem();
+
+        Record.addRecord(100, "foo");
+        JSONObject json = Record.getJSON(100, "foo");
+        Record.addRecord(100, "bar");
+
+        database.remove(json, "records");
+
+        final ArrayList<JSONObject> records = Database.getInstance().getAllItemsFromTable("records");
+        Assert.assertEquals(1, records.size());
+        Assert.assertEquals("bar", records.get(0).getString("tracker"));
+    }
 }

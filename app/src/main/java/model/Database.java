@@ -42,6 +42,22 @@ public class Database {
         this.file = getPathWithFilename(DB_FILENAME).toFile();
     }
 
+    public void remove(JSONObject itemToRemove, String table) throws Exception {
+        final JSONObject json = readJSONFromFile();
+        final JSONArray itemsArrayJson = (JSONArray) json.get(table);
+
+        for (int i = 0; i < itemsArrayJson.length(); i ++) {
+            final JSONObject item = itemsArrayJson.getJSONObject(i);
+            if (item.getString("id").equals(itemToRemove.getString("id"))) {
+                itemsArrayJson.remove(i);
+                writeStringToFile(json.toString());
+                return;
+            }
+        }
+
+        throw new Exception("Cannot remove item, item not found");
+    }
+
     public void createNewDatabaseOnFilesystem() throws IOException, JSONException {
         file.createNewFile();
         writeStringToFile(generateNewDatabaseJson().toString());
@@ -55,11 +71,21 @@ public class Database {
         createNewDatabaseOnFilesystem();
     }
 
-    public void addItemToTable(final JSONObject item, final String tableName) throws JSONException, IOException {
+    public void addItemToTable(final JSONObject item, final String tableName) throws Exception {
+        throwExpceptionIfJSONHasNoID(item);
+
         final JSONObject json = readJSONFromFile();
         final JSONArray recordsArrayJson = (JSONArray) json.get(tableName);
         recordsArrayJson.put(item);
         writeStringToFile(json.toString());
+    }
+
+    public void throwExpceptionIfJSONHasNoID(final JSONObject json) throws Exception {
+        if (json.has("id")) {
+            return;
+        }
+
+        throw new Exception("Item needs id key");
     }
 
     public ArrayList<JSONObject> getAllItemsFromTable(final String tableName) throws JSONException, IOException {
