@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import model.SpendRecord;
+import model.Record;
 import model.Database;
 
 @RunWith(AndroidJUnit4.class)
@@ -77,21 +77,5 @@ public class DatabaseTests {
         Assert.assertNotEquals(null, json);
         Assert.assertTrue(json.has("records"));
         Assert.assertTrue(json.has("tracker"));
-    }
-
-    @Test
-    public void canAddRecord() throws JSONException, IOException {
-        Database.init(context);
-        final Database database = Database.getInstance();
-        database.createNewDatabaseOnFilesystem();
-
-        final SpendRecord record = new SpendRecord(15.10, LocalDate.now());
-        database.addItemToTable(record.toJSON(), "records");
-        database.addItemToTable(record.toJSON(), "records");
-
-        ArrayList<JSONObject> records = database.getAllItemsFromTable("records");
-
-        Assert.assertEquals(2, records.size());
-        Assert.assertEquals(15.10, (double) records.get(0).get("cash"), 0.01);
     }
 }

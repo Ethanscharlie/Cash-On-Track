@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.financemanager.ui.theme.FinanceManagerTheme
-import controller.BudgetTrackerController
-import model.BudgetTracker
+import model.Tracker
+import model.Record
 import model.Database
 import java.time.LocalDate
 
@@ -32,15 +32,15 @@ class MainActivity : ComponentActivity() {
 
         val database = Database.getInstance()
         database.createNewDatabaseOnFilesystem()
-        val tracker = BudgetTracker(100.0, LocalDate.now(), 0)
-        database.addItemToTable(tracker.toJSON(), "tracker")
+
+        Tracker.addTracker("MainTracker", Tracker.PeriodType.Monthly, 100.0);
 
         enableEdgeToEdge()
         setContent {
             FinanceManagerTheme {
                 Column (Modifier.padding(40.dp)) {
                     var trackedValue by remember { mutableStateOf("") }
-                    trackedValue = BudgetTrackerController.getInstance().availableFunds.toString();
+                    trackedValue = Tracker.getBalance("MainTracker").toString();
 
                     var text by remember { mutableStateOf("") }
 
@@ -52,8 +52,8 @@ class MainActivity : ComponentActivity() {
                     )
 
                     Button(onClick = {
-                        BudgetTrackerController.getInstance().record(text.toDouble());
-                        trackedValue = BudgetTrackerController.getInstance().availableFunds.toString();
+                        Record.addRecord(text.toDouble(), "MainTracker");
+                        trackedValue = Tracker.getBalance("MainTracker").toString();
                     }) {
                         Text(text = "Click Me")
                     }
