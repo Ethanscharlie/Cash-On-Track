@@ -4,5 +4,6 @@ import androidx.annotation.StringRes
 
 enum class Screen(@StringRes val title: Int) {
     Balace(title = 0),
-    Record(title = 1)
+    Record(title = 1),
+    Tracker(title = 2)
 }

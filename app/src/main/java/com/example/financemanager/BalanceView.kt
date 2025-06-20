@@ -29,6 +29,7 @@ fun Buttons(
     navController: NavHostController
 ) {
     AddNavButton("Add Record", Screen.Record, navController)
+    AddNavButton("Add Tracker", Screen.Tracker, navController)
 }
 
 @Composable
