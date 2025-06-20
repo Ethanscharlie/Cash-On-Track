@@ -29,11 +29,6 @@ import model.Tracker
 import model.Record
 import model.Database
 
-enum class Screen(@StringRes val title: Int) {
-    Balace(title = 0),
-    Record(title = 1)
-}
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
