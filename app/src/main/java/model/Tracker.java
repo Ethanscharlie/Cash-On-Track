@@ -65,7 +65,6 @@ public class Tracker {
         switch (periodType) {
             case WEEKLY:
             {
-                final LocalDate now = LocalDate.now();
                 final double diff = ChronoUnit.WEEKS.between(startingDate, currentDate);
                 return (int) diff;
             }
