@@ -58,6 +58,6 @@ fun TrackerBalance(trackerName: String) {
     Row {
         Text(trackerName)
         Spacer(Modifier.weight(1f))
-        Text(Tracker.getBalanceOfTracker(trackerName).toString())
+        Text("$ " + Tracker.getBalanceOfTracker(trackerName).toString())
     }
 }
