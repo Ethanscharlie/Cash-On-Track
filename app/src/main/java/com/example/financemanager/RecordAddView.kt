@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -78,7 +80,8 @@ fun RecordEntry(
 
 @Composable
 fun MainFieldEntry(navController: NavHostController) {
-    Column (Modifier.padding(40.dp)) {
+    Column (
+    ) {
         var text by remember { mutableStateOf("") }
         val tracker = remember { mutableStateOf("") }
 
@@ -89,13 +92,21 @@ fun MainFieldEntry(navController: NavHostController) {
             onValueChange = { text = it },
             label = { Text("Cash") },
             maxLines = 1,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .width(1000.dp)
         )
 
-        Button(onClick = {
-            Record.addRecord(text.toDouble(), tracker.value);
-            navController.popBackStack()
-        }) {
+        Button(
+            onClick = {
+                Record.addRecord(text.toDouble(), tracker.value);
+                navController.popBackStack()
+            },
+            modifier = Modifier
+                .padding(vertical = 10.dp)
+                .width(1000.dp)
+        ) {
             Text(text = "Enter")
         }
     }
@@ -105,28 +116,32 @@ fun MainFieldEntry(navController: NavHostController) {
 fun TrackerField(trackerMutable: MutableState<String>, modifier: Modifier = Modifier) {
     val radioOptions = Tracker.getAvailableTrackers()
 
-    Column(modifier.selectableGroup()) {
-        radioOptions.forEach { text ->
-            Row (
-                Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .selectable(
+    Card {
+        Column(
+            modifier.selectableGroup(),
+        ) {
+            radioOptions.forEach { text ->
+                Row (
+                    Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .selectable(
+                            selected = (text == trackerMutable.value),
+                            onClick = { trackerMutable.value = text },
+                            role = Role.RadioButton
+                        )
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
                         selected = (text == trackerMutable.value),
-                        onClick = { trackerMutable.value = text },
-                        role = Role.RadioButton
+                        onClick = null // null recommended for accessibility with screen readers
                     )
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (text == trackerMutable.value),
-                    onClick = null // null recommended for accessibility with screen readers
-                )
-                Text(
-                    text = text,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
+                    Text(
+                        text = text,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
             }
         }
     }
