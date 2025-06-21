@@ -1,5 +1,6 @@
 package com.example.financemanager
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,7 +38,9 @@ fun ManageRecords(
 }
 @Composable
 fun RecordList(navController: NavController) {
-    Column {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         val database = Database.getInstance();
         val records = database.getAllItemsFromTable("records")
         for (record in records) {
