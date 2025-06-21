@@ -11,13 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import model.Database
 import model.Record
-import model.Tracker
 import org.json.JSONObject
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.Icon
 
 @Composable
 fun ManageRecords(
@@ -53,7 +55,7 @@ fun RecordItem(recordJSON: JSONObject, navController: NavController) {
                 Row {
                     val subtext = recordJSON.getString("date") +
                                   " • " +
-                                  recordJSON.getString("tracker");
+                                  recordJSON.getString("tracker")
                     Text(
                         text = subtext,
                         style = MaterialTheme.typography.bodySmall,
@@ -73,6 +75,6 @@ fun RemoveButton(recordID: String, navController: NavController) {
         Record.remove(recordID)
         navController.navigate(Screen.Balace.name)
     }) {
-        Text(text = "X")
+        Icon(Icons.Rounded.Delete, contentDescription = "Delete")
     }
 }
