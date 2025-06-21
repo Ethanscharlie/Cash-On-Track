@@ -10,6 +10,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -21,6 +22,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -52,16 +54,18 @@ fun RecordEntry(
 
                 title = {
                     Text("Add Record")
+                },
+
+                navigationIcon = {
+                    TextButton (onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description"
+                        )
+                    }
                 }
             )
         },
-        floatingActionButton = {
-            FloatingActionButton (onClick = {
-                navController.navigate(Screen.Record.name)
-            }) {
-                Icon(Icons.Rounded.Add, contentDescription = "Add Record")
-            }
-        }
     ) { innerPadding ->
         Column (
             Modifier.padding(40.dp).padding(innerPadding)
@@ -93,12 +97,6 @@ fun MainFieldEntry(navController: NavHostController) {
             navController.popBackStack()
         }) {
             Text(text = "Enter")
-        }
-
-        Button(onClick = {
-            navController.popBackStack()
-        }) {
-            Text(text = "Cancel")
         }
     }
 }
