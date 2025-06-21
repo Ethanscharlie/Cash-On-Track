@@ -1,10 +1,12 @@
 package com.example.financemanager
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
@@ -14,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
@@ -53,7 +56,7 @@ fun BalanceView(
         Column (
             Modifier.padding(40.dp).padding(innerPadding)
         ) {
-            TrackerBalanceList()
+            TrackerBalanceList(navController)
             Spacer(Modifier.weight(1f))
             Buttons(navController)
         }
@@ -68,8 +71,6 @@ fun Buttons(
     Card {
         Column (Modifier.padding(8.dp)) {
             AddNavButton("Manage Records", Screen.ManageRecords, navController)
-            AddNavButton("Add Record", Screen.Record, navController)
-            AddNavButton("Add Tracker", Screen.Tracker, navController)
         }
     }
 }
@@ -84,7 +85,7 @@ fun AddNavButton(text: String,  location: Screen, navController: NavController) 
 }
 
 @Composable
-fun TrackerBalanceList() {
+fun TrackerBalanceList(navController: NavHostController) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -92,13 +93,23 @@ fun TrackerBalanceList() {
         for (trackerName in trackerNamesList) {
             TrackerBalance(trackerName)
         }
+
+        OutlinedButton (
+            onClick = {
+                navController.navigate(Screen.Tracker.name)
+            },
+            modifier = Modifier
+                .width(1000.dp)
+        ) {
+            Icon(Icons.Rounded.Add, contentDescription = "Add")
+        }
     }
 }
 
 @Composable
 fun TrackerBalance(trackerName: String) {
     Card {
-        Row (Modifier.padding(10.dp)) {
+        Row (Modifier.padding(16.dp)) {
             Text(trackerName)
             Spacer(Modifier.weight(1f))
             Text("$ " + Tracker.getBalanceOfTracker(trackerName).toString())
