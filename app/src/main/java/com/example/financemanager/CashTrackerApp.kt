@@ -29,6 +29,10 @@ fun CashTrackerApp(
         composable(route = Screen.Tracker.name) {
             TrackerAdd(navController)
         }
+
+        composable(route = Screen.ManageRecords.name) {
+            ManageRecords(navController)
+        }
     }
 }
 

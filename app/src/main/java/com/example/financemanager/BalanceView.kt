@@ -28,6 +28,8 @@ fun BalanceView(
 fun Buttons(
     navController: NavHostController
 ) {
+    AddNavButton("Manage Records", Screen.ManageRecords, navController)
+
     AddNavButton("Add Record", Screen.Record, navController)
     AddNavButton("Add Tracker", Screen.Tracker, navController)
 }
