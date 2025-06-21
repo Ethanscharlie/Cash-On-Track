@@ -36,6 +36,16 @@ public class Record {
         return total;
     }
 
+    public static void remove(String id) throws Exception {
+        ArrayList<JSONObject> records = Database.getInstance().getAllItemsFromTable("records");
+        for (JSONObject record : records) {
+            if (record.get("id").equals(id)) {
+                Database.getInstance().remove(record, "records");
+                return;
+            }
+        }
+    }
+
     private static String generateID(final Double cash, final LocalDate date, final String tracker) {
         String id = "";
         id += cash.toString();
