@@ -82,7 +82,7 @@ fun TrackerAdd(
 fun MainAddFieldEntry(
     navController: NavHostController
 ) {
-    Column (Modifier.padding(40.dp)) {
+    Column {
         val nameMutable = remember { mutableStateOf("") }
         val cashMutable = remember { mutableStateOf("") }
         val periodMutable = remember { mutableStateOf("monthly") }
@@ -91,17 +91,16 @@ fun MainAddFieldEntry(
         CashField(cashMutable)
         PeriodTypeField(periodMutable)
 
-        Button(onClick = {
-            Tracker.addTracker(nameMutable.value, periodMutable.value, cashMutable.value.toDouble())
-            navController.popBackStack()
-        }) {
-            Text(text = "Add")
-        }
-
-        Button(onClick = {
-            navController.popBackStack()
-        }) {
-            Text(text = "Cancel")
+        Button(
+            onClick = {
+                Tracker.addTracker(nameMutable.value, periodMutable.value, cashMutable.value.toDouble())
+                navController.popBackStack()
+            },
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .width(1000.dp)
+        ) {
+            Text(text = "Enter")
         }
     }
 }
@@ -113,6 +112,9 @@ fun NameField(nameMutable: MutableState<String>) {
         onValueChange = { nameMutable.value = it },
         label = { Text("Name Field") },
         maxLines = 1,
+        modifier = Modifier
+            .padding(bottom = 10.dp)
+            .width(1000.dp)
     )
 }
 
@@ -120,28 +122,34 @@ fun NameField(nameMutable: MutableState<String>) {
 fun PeriodTypeField(periodMutable: MutableState<String>, modifier: Modifier = Modifier) {
     val radioOptions = listOf("monthly", "weekly")
 
-    Column(modifier.selectableGroup()) {
-        radioOptions.forEach { text ->
-            Row (
-                Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .selectable(
+
+    Card (
+        modifier = Modifier
+            .padding(vertical = 10.dp)
+    ) {
+        Column(modifier.selectableGroup()) {
+            radioOptions.forEach { text ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .selectable(
+                            selected = (text == periodMutable.value),
+                            onClick = { periodMutable.value = text },
+                            role = Role.RadioButton
+                        )
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
                         selected = (text == periodMutable.value),
-                        onClick = { periodMutable.value = text },
-                        role = Role.RadioButton
+                        onClick = null // null recommended for accessibility with screen readers
                     )
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (text == periodMutable.value),
-                    onClick = null // null recommended for accessibility with screen readers
-                )
-                Text(
-                    text = text,
-                    modifier = Modifier.padding(start = 16.dp)
-                )
+                    Text(
+                        text = text,
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                }
             }
         }
     }
@@ -154,6 +162,9 @@ fun CashField(cashMutable: MutableState<String>) {
         onValueChange = { cashMutable.value = it },
         label = { Text("Cash Field") },
         maxLines = 1,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = Modifier
+            .padding(bottom = 10.dp)
+            .width(1000.dp)
     )
 }
