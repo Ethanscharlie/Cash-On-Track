@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -18,22 +20,54 @@ import model.Database
 import model.Record
 import org.json.JSONObject
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageRecords(
     navController: NavController
 ) {
-    Column (Modifier.padding(30.dp)) {
-        RecordList(navController)
 
-        Button(onClick = {
-            navController.popBackStack()
-        }) {
-            Text(text = "Cancel")
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.primary,
+                ),
+
+                title = {
+                    Text("Manage Trackers")
+                },
+
+                navigationIcon = {
+                    TextButton (onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Localized description"
+                        )
+                    }
+                }
+            )
+        },
+    ) { innerPadding ->
+        Column (
+            Modifier
+                .padding(30.dp)
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
+        ) {
+            RecordList(navController)
         }
+
     }
 }
 @Composable
@@ -51,7 +85,10 @@ fun RecordList(navController: NavController) {
 
 @Composable
 fun RecordItem(recordJSON: JSONObject, navController: NavController) {
-    Card {
+    Card (
+        Modifier
+            .padding(bottom = 4.dp)
+    ) {
         Row (Modifier.padding(10.dp)) {
             Column {
                 Text("$ " + recordJSON.getString("cash"))
