@@ -2,25 +2,35 @@ package com.example.financemanager
 
 import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -42,6 +52,21 @@ fun BalanceView(
 
                 title = {
                     Text("Balances")
+                },
+
+                navigationIcon = {
+                    val expanded = remember { mutableStateOf(false) }
+
+                    TextButton (onClick = {
+                        expanded.value = true
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = "Localized description"
+                        )
+                    }
+
+                    DropMenu(expanded, navController)
                 }
             )
         },
@@ -57,30 +82,31 @@ fun BalanceView(
             Modifier.padding(40.dp).padding(innerPadding)
         ) {
             TrackerBalanceList(navController)
-            Spacer(Modifier.weight(1f))
-            Buttons(navController)
         }
 
     }
 }
 
 @Composable
-fun Buttons(
+fun DropMenu(
+    expanded: MutableState<Boolean>,
     navController: NavHostController
 ) {
-    Card {
-        Column (Modifier.padding(8.dp)) {
-            AddNavButton("Manage Records", Screen.ManageRecords, navController)
+    Box(
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
+        DropdownMenu (
+            expanded = expanded.value,
+            onDismissRequest = { expanded.value = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Manage Records") },
+                onClick = {
+                    navController.navigate(Screen.ManageRecords.name)
+                }
+            )
         }
-    }
-}
-
-@Composable
-fun AddNavButton(text: String,  location: Screen, navController: NavController) {
-    Button(onClick = {
-        navController.navigate(location.name)
-    }) {
-        Text(text = text)
     }
 }
 
