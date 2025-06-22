@@ -45,7 +45,7 @@ fun ManageRecords(
                 ),
 
                 title = {
-                    Text("Manage Trackers")
+                    Text("Manage Records")
                 },
 
                 navigationIcon = {
