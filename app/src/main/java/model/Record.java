@@ -15,6 +15,7 @@ public class Record {
 
     public static JSONObject getJSON(final double cash, final String tracker) throws JSONException {
         JSONObject json = new JSONObject();
+        json.put("note", "");
         json.put("cash", cash);
         json.put("date", LocalDate.now().toString());
         json.put("tracker", tracker);
