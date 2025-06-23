@@ -18,8 +18,6 @@ class MainActivity : ComponentActivity() {
         val database = Database.getInstance()
         database.createNewDatabaseOnFilesystemIfMissing()
 
-        Tracker.addTracker("MainTracker", Tracker.MONTHLY, 100.0);
-
         enableEdgeToEdge()
         setContent {
             FinanceManagerTheme {
