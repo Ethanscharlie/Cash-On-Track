@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
 public class Tracker {
@@ -75,7 +76,9 @@ public class Tracker {
         switch (periodType) {
             case WEEKLY:
             {
-                final double diff = ChronoUnit.WEEKS.between(startingDate, currentDate);
+                LocalDate start = startingDate.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.SUNDAY));
+                LocalDate now = currentDate.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.SUNDAY));
+                final double diff = ChronoUnit.WEEKS.between(start, now);
                 return (int) diff;
             }
             case MONTHLY:
@@ -116,7 +119,7 @@ public class Tracker {
         return tracker.get("name").equals(trackerName);
     }
 
-    private static JSONObject findTracker(String trackerName) throws JSONException, IOException {
+    public static JSONObject findTracker(String trackerName) throws JSONException, IOException {
         final ArrayList<JSONObject> trackers = getAllTrackers();
         for (final JSONObject tracker : trackers) {
             if (trackersNameIs(tracker, trackerName)) {

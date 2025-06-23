@@ -1,6 +1,5 @@
 package com.example.financemanager
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.Button
@@ -20,8 +18,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -33,7 +31,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import model.Tracker
 
@@ -134,11 +131,66 @@ fun TrackerBalanceList(navController: NavHostController) {
 
 @Composable
 fun TrackerBalance(trackerName: String) {
-    Card {
-        Row (Modifier.padding(16.dp)) {
-            Text(trackerName)
-            Spacer(Modifier.weight(1f))
-            Text("$ " + Tracker.getBalanceOfTracker(trackerName).toString())
+    if (Tracker.findTracker(trackerName) == null) {
+        return;
+    }
+
+    val showBottomSheet = remember { mutableStateOf(false) }
+
+    if (showBottomSheet.value) {
+        RemoveBalanceSheet(trackerName, showBottomSheet)
+    }
+
+    TextButton(
+        onClick = {
+            showBottomSheet.value = true;
+        }
+    ) {
+        Card {
+            Row(Modifier.padding(16.dp)) {
+                Text(trackerName)
+                Spacer(Modifier.weight(1f))
+                Text("$ " + Tracker.getBalanceOfTracker(trackerName).toString())
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RemoveBalanceSheet(
+    tracker: String,
+    showBottomSheet: MutableState<Boolean>
+) {
+    ModalBottomSheet(
+        onDismissRequest = {
+            showBottomSheet.value = false
+        },
+    ) {
+        Column (
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
+            Text("Remove $tracker?")
+
+            Row {
+                Button(
+                    onClick = {
+                        Tracker.remove(tracker)
+                        showBottomSheet.value = false
+                    }
+                ) {
+                    Text("Confirm")
+                }
+
+                OutlinedButton (
+                    onClick = {
+                        showBottomSheet.value = false
+                    }
+                ) {
+                    Text("Cancel")
+                }
+            }
         }
     }
 }
