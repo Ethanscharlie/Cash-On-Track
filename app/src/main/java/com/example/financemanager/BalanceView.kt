@@ -141,12 +141,12 @@ fun TrackerBalance(trackerName: String) {
         RemoveBalanceSheet(trackerName, showBottomSheet)
     }
 
-    TextButton(
-        onClick = {
-            showBottomSheet.value = true;
-        }
-    ) {
-        Card {
+    Card {
+        TextButton(
+            onClick = {
+                showBottomSheet.value = true;
+            }
+        ) {
             Row(Modifier.padding(16.dp)) {
                 Text(trackerName)
                 Spacer(Modifier.weight(1f))
