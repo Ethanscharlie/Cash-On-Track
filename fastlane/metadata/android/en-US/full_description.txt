@@ -1,0 +1,1 @@
+<p><i>Cash on Track</i> is a simple app to help plan and track your money. With this app, you can:</p><ul><li>Create trackers to dedicate a certain budget for each month/week.</li><li>Add purchase records to these trackers.</li><li>View the balance of these trackers after purchase records have been applied.</li></ul>
