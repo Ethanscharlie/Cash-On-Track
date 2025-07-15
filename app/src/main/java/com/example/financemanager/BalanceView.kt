@@ -104,6 +104,12 @@ fun DropMenu(
                     navController.navigate(Screen.ManageRecords.name)
                 }
             )
+            DropdownMenuItem(
+                text = { Text("Add Tracker") },
+                onClick = {
+                    navController.navigate(Screen.Tracker.name)
+                }
+            )
         }
     }
 }
@@ -116,16 +122,6 @@ fun TrackerBalanceList(navController: NavHostController) {
         val trackerNamesList = Tracker.getAvailableTrackers()
         for (trackerName in trackerNamesList) {
             TrackerBalance(trackerName)
-        }
-
-        OutlinedButton (
-            onClick = {
-                navController.navigate(Screen.Tracker.name)
-            },
-            modifier = Modifier
-                .width(1000.dp)
-        ) {
-            Icon(Icons.Rounded.Add, contentDescription = "Add")
         }
     }
 }
