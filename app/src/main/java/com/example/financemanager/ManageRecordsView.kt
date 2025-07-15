@@ -49,7 +49,9 @@ fun ManageRecords(
                 },
 
                 navigationIcon = {
-                    TextButton (onClick = { navController.popBackStack() }) {
+                    TextButton (onClick = {
+                        navController.navigate(Screen.Balace.name)
+                    }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Localized description"

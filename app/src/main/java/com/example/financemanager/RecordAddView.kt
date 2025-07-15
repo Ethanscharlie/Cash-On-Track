@@ -56,7 +56,7 @@ fun RecordEntry(
                 },
 
                 navigationIcon = {
-                    TextButton (onClick = { navController.popBackStack() }) {
+                    TextButton (onClick = { navController.navigate(Screen.Balace.name) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Localized description"
@@ -108,7 +108,7 @@ fun MainFieldEntry(navController: NavHostController) {
                 }
 
                 Record.addRecord(text.toDouble(), tracker.value);
-                navController.popBackStack()
+                navController.navigate(Screen.Balace.name)
             },
             modifier = Modifier
                 .padding(vertical = 10.dp)

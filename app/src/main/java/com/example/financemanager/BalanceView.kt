@@ -18,6 +18,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
@@ -53,18 +54,7 @@ fun BalanceView(
                 },
 
                 navigationIcon = {
-                    val expanded = remember { mutableStateOf(false) }
-
-                    TextButton (onClick = {
-                        expanded.value = true
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Localized description"
-                        )
-                    }
-
-                    DropMenu(expanded, navController)
+                    DropMenu(navController)
                 }
             )
         },
@@ -87,13 +77,18 @@ fun BalanceView(
 
 @Composable
 fun DropMenu(
-    expanded: MutableState<Boolean>,
     navController: NavHostController
 ) {
+    val expanded = remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .padding(16.dp)
     ) {
+        IconButton(onClick = { expanded.value = !expanded.value }) {
+            Icon(Icons.Filled.Menu, contentDescription = "Options menu")
+        }
+
         DropdownMenu (
             expanded = expanded.value,
             onDismissRequest = { expanded.value = false }
