@@ -1,5 +1,6 @@
 package model;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -140,4 +141,20 @@ public class Tracker {
         return id;
     }
 
+    public static boolean isValidDouble(String number) {
+        if (number == null || number.isEmpty()) {
+            return false;
+        }
+
+        try
+        {
+            Double.parseDouble(number);
+        }
+        catch(NumberFormatException e)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }
