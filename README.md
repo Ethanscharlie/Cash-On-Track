@@ -9,6 +9,8 @@ Add purchase records to these trackers.
 
 View the balance of these trackers after purchase records have been applied.
 
+[<img src="https://shields.rbtlog.dev/simple/com.example.financemanager" alt="RB shield">](https://shields.rbtlog.dev/com.example.financemanager)
+
 ---
 
 ## Screenshots
@@ -18,3 +20,6 @@ View the balance of these trackers after purchase records have been applied.
     <td><img src="https://github.com/user-attachments/assets/3c84d5ca-a100-4bbb-9f7c-43b27d8f75f1" width=270></td>
   </tr>
 </table>
+
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="RB shield">](https://apt.izzysoft.de/fdroid/index/apk/com.example.financemanager)
+
