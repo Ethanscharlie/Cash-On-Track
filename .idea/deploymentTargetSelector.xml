@@ -7,13 +7,21 @@
       </SelectionState>
       <SelectionState runConfigName="Tests in 'com.example.financemanager'">
         <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2025-07-14T23:19:42.850155052Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=/home/ethanscharlie/.var/app/com.google.AndroidStudio/config/.android/avd/Medium_Phone.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="MainActivity">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-06-24T23:44:42.061517538Z">
+        <DropdownSelection timestamp="2025-07-15T19:03:20.339398425Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=R3CT70GQWFY" />
+              <DeviceId pluginId="Default" identifier="serial=&lt;unknown&gt;;connection=1b57356b" />
             </handle>
           </Target>
         </DropdownSelection>

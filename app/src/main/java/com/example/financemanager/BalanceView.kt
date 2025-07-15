@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import model.Tracker
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -150,7 +151,7 @@ fun TrackerBalance(trackerName: String) {
             Row(Modifier.padding(16.dp)) {
                 Text(trackerName)
                 Spacer(Modifier.weight(1f))
-                Text("$ " + Tracker.getBalanceOfTracker(trackerName).toString())
+                Text(String.format(Locale.ENGLISH, "$ %.2f", Tracker.getBalanceOfTracker(trackerName)))
             }
         }
     }
