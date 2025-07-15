@@ -102,12 +102,14 @@ fun DropMenu(
                 text = { Text("Manage Records") },
                 onClick = {
                     navController.navigate(Screen.ManageRecords.name)
+                    expanded.value = false
                 }
             )
             DropdownMenuItem(
                 text = { Text("Add Tracker") },
                 onClick = {
                     navController.navigate(Screen.Tracker.name)
+                    expanded.value = false
                 }
             )
         }
