@@ -93,6 +93,14 @@ fun MainAddFieldEntry(
 
         Button(
             onClick = {
+                if (!Tracker.isValidDouble(cashMutable.value)) {
+                    return@Button
+                }
+
+                if (nameMutable.value == "") {
+                    return@Button
+                }
+
                 Tracker.addTracker(nameMutable.value, periodMutable.value, cashMutable.value.toDouble())
                 navController.popBackStack()
             },
