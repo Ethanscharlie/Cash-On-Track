@@ -31,6 +31,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import model.Tracker
@@ -142,9 +143,24 @@ fun TrackerBalance(trackerName: String) {
             }
         ) {
             Row(Modifier.padding(16.dp)) {
-                Text(trackerName)
+                Text(
+                    text =  trackerName,
+                    style = MaterialTheme.typography.headlineSmall
+                )
+
                 Spacer(Modifier.weight(1f))
-                Text(String.format(Locale.ENGLISH, "$ %.2f", Tracker.getBalanceOfTracker(trackerName)))
+
+                Column {
+                    Text(String.format(Locale.ENGLISH, "$ %.2f", Tracker.getBalanceOfTracker(trackerName)))
+
+                    Row {
+                        Text(
+                            text = Tracker.getTrackerInfoString(trackerName),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Gray
+                        )
+                    }
+                }
             }
         }
     }

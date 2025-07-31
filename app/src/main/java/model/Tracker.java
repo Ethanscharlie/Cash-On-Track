@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Tracker {
     public static final String MONTHLY = "monthly";
@@ -156,5 +157,12 @@ public class Tracker {
         }
 
         return true;
+    }
+
+    public static String getTrackerInfoString(String trackerName) throws JSONException, IOException {
+        JSONObject tracker = findTracker(trackerName);
+        final String periodType = tracker.getString("period_type");
+        final double cash = tracker.getDouble("cash");
+        return String.format(Locale.ENGLISH, "$ %.2f %s", cash, periodType);
     }
 }
