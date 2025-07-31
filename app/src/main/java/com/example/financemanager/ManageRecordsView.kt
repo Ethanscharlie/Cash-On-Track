@@ -79,8 +79,8 @@ fun RecordList(navController: NavController) {
     ) {
         val database = Database.getInstance();
         val records = database.getAllItemsFromTable("records")
-        for (record in records) {
-            RecordItem(record, navController)
+        for (i in records.indices.reversed()) {
+            RecordItem(records[i], navController)
         }
     }
 }
