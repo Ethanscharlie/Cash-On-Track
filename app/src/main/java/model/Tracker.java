@@ -14,6 +14,7 @@ import java.util.Locale;
 public class Tracker {
     public static final String MONTHLY = "monthly";
     public static final String WEEKLY = "weekly";
+    public static final String YEARLY = "yearly";
 
     public static void addTracker(String name, String periodType, double cash) throws Exception {
         if (findTracker(name) != null) {
@@ -83,11 +84,20 @@ public class Tracker {
                 final double diff = ChronoUnit.WEEKS.between(start, now);
                 return (int) diff;
             }
+
             case MONTHLY:
             {
                 final LocalDate start = startingDate.withDayOfMonth(1);
                 final LocalDate now = currentDate.withDayOfMonth(1);
                 final double diff = ChronoUnit.MONTHS.between(start, now);
+                return (int) diff;
+            }
+
+            case YEARLY:
+            {
+                final LocalDate start = startingDate.withDayOfYear(1);
+                final LocalDate now = currentDate.withDayOfYear(1);
+                final double diff = ChronoUnit.YEARS.between(start, now);
                 return (int) diff;
             }
         }

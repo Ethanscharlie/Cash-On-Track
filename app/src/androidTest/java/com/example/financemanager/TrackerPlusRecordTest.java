@@ -48,6 +48,19 @@ public class TrackerPlusRecordTest {
     }
 
     @Test
+    public void yearlyBalanceIsCorrectForFuture() throws Exception {
+        createTestingDatabase();
+
+        Tracker.addTracker("One", Tracker.YEARLY, 25);
+        Record.addRecord(20, "One");
+
+        final LocalDate future = LocalDate.now().plusWeeks(70);
+
+        final double balance = Tracker.getBalanceOfTrackerForDate("One", future);
+        Assert.assertEquals(25 * 2 - 20, balance, 0.01);
+    }
+
+    @Test
     public void canAddMultipleTrackersAndRemoveFromOne() throws Exception {
         createTestingDatabase();
 
