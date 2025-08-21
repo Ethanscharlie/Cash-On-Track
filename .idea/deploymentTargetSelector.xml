@@ -7,7 +7,7 @@
       </SelectionState>
       <SelectionState runConfigName="Tests in 'com.example.financemanager'">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-07-14T23:19:42.850155052Z">
+        <DropdownSelection timestamp="2025-08-21T20:05:40.758344352Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=/home/ethanscharlie/.var/app/com.google.AndroidStudio/config/.android/avd/Medium_Phone.avd" />

@@ -128,7 +128,7 @@ fun NameField(nameMutable: MutableState<String>) {
 
 @Composable
 fun PeriodTypeField(periodMutable: MutableState<String>, modifier: Modifier = Modifier) {
-    val radioOptions = listOf("monthly", "weekly")
+    val radioOptions = listOf("monthly", "weekly", "yearly")
 
 
     Card (
