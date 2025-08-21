@@ -85,9 +85,9 @@ public class DatabaseTests {
         Database database = Database.getInstance();
         database.createNewDatabaseOnFilesystem();
 
-        Record.addRecord(100, "foo");
-        JSONObject json = Record.getJSON(100, "foo");
-        Record.addRecord(100, "bar");
+        Record.addRecord(100, "foo", "");
+        JSONObject json = Record.getJSON(100, "foo", "");
+        Record.addRecord(100, "bar", "");
 
         database.remove(json, "records");
 

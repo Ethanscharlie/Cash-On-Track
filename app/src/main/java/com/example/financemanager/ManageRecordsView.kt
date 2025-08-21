@@ -93,7 +93,13 @@ fun RecordItem(recordJSON: JSONObject, navController: NavController) {
     ) {
         Row (Modifier.padding(10.dp)) {
             Column {
-                Text("$ " + recordJSON.getString("cash"))
+                Text(
+                    "$ " +
+                            recordJSON.getString("cash") +
+                            "   •   " +
+                            recordJSON.getString("note")
+                )
+
                 Row {
                     val subtext = recordJSON.getString("date") +
                                   " • " +

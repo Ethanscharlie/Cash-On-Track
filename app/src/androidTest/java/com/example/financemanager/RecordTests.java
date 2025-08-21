@@ -25,8 +25,8 @@ public class RecordTests {
     public void canAddRecordsAndGetBalance() throws Exception {
         createTestingDatabase();
 
-        Record.addRecord(100, "");
-        Record.addRecord(34.5, "");
+        Record.addRecord(100, "", "");
+        Record.addRecord(34.5, "", "");
         final double total = Record.getTotalSpentForTracker("");
         Assert.assertEquals(134.5, total, 0.01);
     }
@@ -37,9 +37,9 @@ public class RecordTests {
         createTestingDatabase();
         final Database database = Database.getInstance();
 
-        Record.addRecord(10, "One");
-        Record.addRecord(11, "One");
-        Record.addRecord(12, "One");
+        Record.addRecord(10, "One", "");
+        Record.addRecord(11, "One", "");
+        Record.addRecord(12, "One", "");
 
         JSONObject json = database.getAllItemsFromTable("records").get(1);
         Record.remove(json.getString("id"));

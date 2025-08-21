@@ -8,14 +8,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Record {
-    public static void addRecord(final double cash, final String tracker) throws Exception {
-        JSONObject json = getJSON(cash, tracker);
+    public static void addRecord(final double cash, final String tracker, final String note) throws Exception {
+        JSONObject json = getJSON(cash, tracker, note);
         Database.getInstance().addItemToTable(json, "records");
     }
 
-    public static JSONObject getJSON(final double cash, final String tracker) throws JSONException {
+    public static JSONObject getJSON(final double cash, final String tracker, final String note) throws JSONException {
         JSONObject json = new JSONObject();
-        json.put("note", "");
+        json.put("note", note);
         json.put("cash", cash);
         json.put("date", LocalDate.now().toString());
         json.put("tracker", tracker);

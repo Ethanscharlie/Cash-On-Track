@@ -83,6 +83,7 @@ fun MainFieldEntry(navController: NavHostController) {
     ) {
         var text by remember { mutableStateOf("") }
         val tracker = remember { mutableStateOf("") }
+        var note by remember { mutableStateOf("") }
 
         TrackerField(tracker)
 
@@ -97,6 +98,17 @@ fun MainFieldEntry(navController: NavHostController) {
                 .width(1000.dp)
         )
 
+        OutlinedTextField (
+            value = note,
+            onValueChange = { note = it },
+            label = { Text("Note") },
+            maxLines = 1,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            modifier = Modifier
+                .padding(vertical = 1.dp)
+                .width(1000.dp)
+        )
+
         Button(
             onClick = {
                 if (!Tracker.isValidDouble(text)) {
@@ -107,7 +119,7 @@ fun MainFieldEntry(navController: NavHostController) {
                     return@Button
                 }
 
-                Record.addRecord(text.toDouble(), tracker.value);
+                Record.addRecord(text.toDouble(), tracker.value, note);
                 navController.navigate(Screen.Balace.name)
             },
             modifier = Modifier

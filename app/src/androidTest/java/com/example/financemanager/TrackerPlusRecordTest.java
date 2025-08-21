@@ -25,7 +25,7 @@ public class TrackerPlusRecordTest {
         createTestingDatabase();
 
         Tracker.addTracker("One", Tracker.MONTHLY, 100);
-        Record.addRecord(20, "One");
+        Record.addRecord(20, "One", "");
 
         final LocalDate future = LocalDate.now().plusMonths(20);
 
@@ -39,7 +39,7 @@ public class TrackerPlusRecordTest {
         createTestingDatabase();
 
         Tracker.addTracker("One", Tracker.WEEKLY, 25);
-        Record.addRecord(20, "One");
+        Record.addRecord(20, "One", "");
 
         final LocalDate future = LocalDate.now().plusWeeks(100);
 
@@ -52,7 +52,7 @@ public class TrackerPlusRecordTest {
         createTestingDatabase();
 
         Tracker.addTracker("One", Tracker.YEARLY, 25);
-        Record.addRecord(20, "One");
+        Record.addRecord(20, "One", "");
 
         final LocalDate future = LocalDate.now().plusWeeks(70);
 
@@ -67,7 +67,7 @@ public class TrackerPlusRecordTest {
         Tracker.addTracker("One", Tracker.WEEKLY, 100);
         Tracker.addTracker("Two", Tracker.WEEKLY, 25);
 
-        Record.addRecord(10, "Two");
+        Record.addRecord(10, "Two", "");
 
         final double balance = Tracker.getBalanceOfTracker("Two");
         Assert.assertEquals(15, balance, 0.01);
